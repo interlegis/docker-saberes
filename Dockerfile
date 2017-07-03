@@ -1,47 +1,54 @@
-# Dockerfile for moodle instance. more dockerish version of https://github.com/sergiogomez/docker-moodle
-# Forked from Jon Auer's docker version. https://github.com/jda/docker-moodle
-FROM ubuntu:16.04
+FROM alpine:3.6
+
 MAINTAINER Matheus Garcia <garcia.figueiredo@gmail.com>
-#Original Maintainer Jon Auer <jda@coldshore.com> ---> Jonathan Hardison <jmh@jonathanhardison.com>
+MAINTAINER Fabio Rauber <fabiorauber@gmail.com>
 
-VOLUME ["/var/www/moodledata"]
-EXPOSE 80 443
+ENV MOODLE_VERSION=32 \
+    MOODLE_GITHUB=https://github.com/interlegis/moodle.git \
+    MOODLE_DATA=/var/moodledata
 
-# Keep upstart from complaining
-# RUN dpkg-divert --local --rename --add /sbin/initctl
-# RUN ln -sf /bin/true /sbin/initctl
+EXPOSE 80
 
-# Let the container know that there is no tty
-ENV DEBIAN_FRONTEND noninteractive
+VOLUME ["/var/moodledata"]
 
-# Database info (parameters exposed in docker-compose)
-ENV MOODLE_URL http://127.0.0.1/moodle
+RUN apk update \
+ && apk add --no-cache \
+                       git \
+                       apache2 \
+                       php7 \
+                       php7-apache2 \
+                       php7-iconv \
+                       php7-pgsql \
+                       php7-session \
+                       php7-json \
+                       php7-xml \
+                       php7-curl \
+                       php7-zip \
+                       php7-zlib \
+                       php7-gd \
+                       php7-dom \
+                       php7-xmlreader \
+                       php7-mbstring \
+                       php7-openssl \
+                       php7-xmlrpc \
+                       php7-soap \
+                       php7-intl \
+                       php7-opcache \
+                       php7-tokenizer \
+                       php7-simplexml \
+                       php7-ctype
 
-ADD ./foreground.sh /etc/apache2/foreground.sh
+RUN cd /tmp \
+ && git clone ${MOODLE_GITHUB} --depth=1 \
+ && rm -rf /var/www/localhost/htdocs \
+ && mv /tmp/moodle /var/www/localhost/htdocs \
+ && chown apache:apache -R /var/www/localhost/htdocs \
+ && mkdir /run/apache2
 
-RUN apt-get update && \
-	apt-get -y install postgresql-client-9.5 pwgen python-setuptools unzip apache2 php \
-		php-gd libapache2-mod-php postfix wget supervisor php-pgsql curl libcurl3 \
-		libcurl3-dev php-curl php-xmlrpc php-intl php-xml php-mbstring php-zip php-soap git
+RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log \
+ && ln -sf /proc/self/fd/1 /var/log/apache2/error.log
 
-RUN cd /tmp && \
-#	git clone -b MOODLE_32_STABLE git://git.moodle.org/moodle.git --depth=1 && \
-	git clone https://github.com/interlegis/moodle.git --depth=1 && \
-	mv /tmp/moodle/ /var/www/html/ && \
-	rm /var/www/html/index.html
+COPY moodle-config.php /var/www/localhost/htdocs/config.php
+COPY run.sh /opt/apache2/run.sh
 
-COPY moodle-config.php /var/www/html/config.php
-
-# Copia os arquivos do moodle para /var/www/html
-#ADD . /var/www/html/moodle
-
-RUN 	chown -R www-data:www-data /var/www/html/ && \
-	chmod +x /etc/apache2/foreground.sh && \
-	apt-get clean autoclean && \
-	apt-get autoremove -y && \
-	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/lib/dpkg/* /var/lib/cache/* /var/lib/log/*
-
-
-# Enable SSL, moodle requires it
-RUN a2enmod ssl && a2ensite default-ssl # if using proxy, don't need actually secure connection
-CMD ["/etc/apache2/foreground.sh"]
+CMD ["/opt/apache2/run.sh"]

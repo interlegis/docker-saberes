@@ -1,23 +1,13 @@
-DB:
-  image: postgres:latest
-  environment:
-    - DB_ENV_PGSQL_HOST=10.1.2.47
-    - DB_ENV_PGSQL_DATABASE=moodle
-    - DB_ENV_PGSQL_USER=saberes
-    - DB_ENV_PGSQL_PASSWORD=senhas@beres
-  volumes:
-    - database:/var/lib/postgresql
-  ports:
-    - "5432:5432"
-
 moodle:
-  image: moodle
+  #image: moodle
+  build: .
   volumes:
-   - /var/www/moodledata:/var/www/moodledata
-  links:
-   - DB
+   - moodledata:/var/moodledata
   ports:
    - "80:80"
   environment:
-   - MOODLE_URL=http://127.0.0.1/moodle
-   - MOODLE_DATA=/var/www/moodledata
+   - MOODLE_URL=http://127.0.0.1
+   - MOODLE_DB_HOST=10.1.2.47
+   - MOODLE_DB_NAME=moodle
+   - MOODLE_DB_USER=saberes
+   - MOODLE_DB_PASS=senhas@beres
