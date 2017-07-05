@@ -5,7 +5,9 @@ MAINTAINER Fabio Rauber <fabiorauber@gmail.com>
 
 ENV MOODLE_VERSION=32 \
     MOODLE_GITHUB=https://github.com/interlegis/moodle.git \
-    MOODLE_DATA=/var/moodledata
+    MOODLE_DATA=/var/moodledata \
+    MOODLE_REVERSEPROXY=false \
+    MOODLE_SSLPROXY=false
 
 EXPOSE 80
 
