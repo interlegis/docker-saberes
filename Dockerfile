@@ -52,7 +52,8 @@ RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log \
  && ln -sf /proc/self/fd/1 /var/log/apache2/error.log
 
 COPY moodle-config.php /var/www/localhost/htdocs/config.php
-COPY 00_memorylimit.ini /etc/php7/conf.d/00_memorylimit.ini
+COPY 00_limits.ini /etc/php7/conf.d/00_limits.ini
+COPY 00_opcache.ini /etc/php7/conf.d/00_opcache.ini
 COPY run.sh /opt/apache2/run.sh
 
 CMD ["/opt/apache2/run.sh"]
