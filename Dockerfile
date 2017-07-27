@@ -7,7 +7,8 @@ ENV MOODLE_VERSION=32 \
     MOODLE_GITHUB=https://github.com/interlegis/moodle.git \
     MOODLE_DATA=/var/moodledata \
     MOODLE_REVERSEPROXY=false \
-    MOODLE_SSLPROXY=false
+    MOODLE_SSLPROXY=false \
+    SABERES_VERSION=3.2.1-5
 
 EXPOSE 80
 
@@ -41,7 +42,7 @@ RUN apk update \
                        php7-ctype
 
 RUN cd /tmp \
- && git clone ${MOODLE_GITHUB} --depth=1 \
+ && git clone ${MOODLE_GITHUB} --depth=1 --branch ${SABERES_VERSION} \
  && rm -rf /var/www/localhost/htdocs \
  && mv /tmp/moodle /var/www/localhost/htdocs \
  && chown apache:apache -R /var/www/localhost/htdocs \
