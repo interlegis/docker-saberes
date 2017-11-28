@@ -445,12 +445,12 @@ $CFG->sslproxy = filter_var(getenv('MOODLE_SSLPROXY'), FILTER_VALIDATE_BOOLEAN);
 // Use the following flag to completely disable the Available update notifications
 // feature and hide it from the server administration UI.
 //
-//      $CFG->disableupdatenotifications = true;
+$CFG->disableupdatenotifications = true;
 //
 // Use the following flag to completely disable the Automatic updates deployment
 // feature and hide it from the server administration UI.
 //
-//      $CFG->disableupdateautodeploy = true;
+$CFG->disableupdateautodeploy = true;
 //
 // Use the following flag to completely disable the On-click add-on installation
 // feature and hide it from the server administration UI.
