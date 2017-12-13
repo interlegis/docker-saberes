@@ -57,5 +57,6 @@ COPY 00_limits.ini /etc/php7/conf.d/00_limits.ini
 COPY 00_opcache.ini /etc/php7/conf.d/00_opcache.ini
 COPY run.sh /opt/apache2/run.sh
 COPY crontab /etc/crontabs/root
+COPY startcron.sh /usr/local/bin
 
 CMD ["/opt/apache2/run.sh"]
