@@ -11,3 +11,5 @@ moodle:
    - MOODLE_DB_NAME=moodle
    - MOODLE_DB_USER=saberes
    - MOODLE_DB_PASS=senhas@beres
+   - OSTICKET_API_KEY=B154D35D63E7A4ADAE8BA8282C6490CD
+   - OSTICKET_API_URL=http://10.1.2.242/osticket/upload/api/http.php/tickets.json
