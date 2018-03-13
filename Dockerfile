@@ -8,7 +8,7 @@ ENV MOODLE_VERSION=32 \
     MOODLE_DATA=/var/moodledata \
     MOODLE_REVERSEPROXY=false \
     MOODLE_SSLPROXY=false \
-    SABERES_VERSION=3.2.1-24
+    SABERES_VERSION=3.2.1-30
 
 EXPOSE 80
 
@@ -16,6 +16,7 @@ VOLUME ["/var/moodledata"]
 
 RUN apk update \
  && apk add --no-cache \
+                       dcron \
                        git \
                        apache2 \
                        php7 \
@@ -55,5 +56,7 @@ COPY moodle-config.php /var/www/localhost/htdocs/config.php
 COPY 00_limits.ini /etc/php7/conf.d/00_limits.ini
 COPY 00_opcache.ini /etc/php7/conf.d/00_opcache.ini
 COPY run.sh /opt/apache2/run.sh
+COPY crontab /etc/crontabs/root
+COPY startcron.sh /usr/local/bin
 
 CMD ["/opt/apache2/run.sh"]
