@@ -3,12 +3,11 @@ FROM alpine:3.6
 MAINTAINER Matheus Garcia <garcia.figueiredo@gmail.com>
 MAINTAINER Fabio Rauber <fabiorauber@gmail.com>
 
-ENV MOODLE_VERSION=32 \
-    MOODLE_GITHUB=https://github.com/interlegis/moodle.git \
+ENV MOODLE_GITHUB=https://github.com/interlegis/moodle.git \
     MOODLE_DATA=/var/moodledata \
     MOODLE_REVERSEPROXY=false \
     MOODLE_SSLPROXY=false \
-    SABERES_VERSION=3.2.1-50
+    SABERES_VERSION=3.4.2-1
 
 EXPOSE 80
 
@@ -40,23 +39,29 @@ RUN apk update \
                        php7-opcache \
                        php7-tokenizer \
                        php7-simplexml \
-                       php7-ctype
+                       php7-ctype \
+                       php7-fileinfo
 
 RUN cd /tmp \
- && git clone ${MOODLE_GITHUB} --depth=1 --branch ${SABERES_VERSION} \
+ && git clone ${MOODLE_GITHUB} --depth=1 --branch SAB_${SABERES_VERSION} \
  && rm -rf /var/www/localhost/htdocs \
+ && cd moodle \
+ && git submodule init \
+ && git submodule update \ 
+ && cd .. \
  && mv /tmp/moodle /var/www/localhost/htdocs \
- && chown apache:apache -R /var/www/localhost/htdocs \
  && mkdir /run/apache2
 
 RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log \
  && ln -sf /proc/self/fd/1 /var/log/apache2/error.log
 
-COPY moodle-config.php /var/www/localhost/htdocs/config.php
 COPY 00_limits.ini /etc/php7/conf.d/00_limits.ini
 COPY 00_opcache.ini /etc/php7/conf.d/00_opcache.ini
+COPY install.sh /usr/local/bin
 COPY run.sh /opt/apache2/run.sh
 COPY crontab /etc/crontabs/root
 COPY startcron.sh /usr/local/bin
+
+COPY moodle-config.php /var/www/localhost/htdocs/
 
 CMD ["/opt/apache2/run.sh"]
