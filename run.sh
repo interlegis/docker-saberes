@@ -16,10 +16,10 @@ fi
 cp /var/www/localhost/htdocs/moodle-config.php /var/www/localhost/htdocs/config.php
 
 # Executa comando de upgrade, caso haja atualizações a serem realizadas
-/usr/bin/php /var/www/localhost/htdocs/admin/cli/upgrade.php --non-interactive
+#/usr/bin/php /var/www/localhost/htdocs/admin/cli/upgrade.php --non-interactive
 
 # Atribui proprietário do moodledata e config.php
-chown apache:apache /var/www/localhost/htdocs -R
+#chown apache:apache /var/www/localhost/htdocs -R
 chown apache:apache /var/moodledata -R
 
 # Inicializa o servidor web
