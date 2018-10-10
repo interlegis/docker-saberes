@@ -7,7 +7,7 @@ ENV MOODLE_GITHUB=https://github.com/interlegis/moodle.git \
     MOODLE_DATA=/var/moodledata \
     MOODLE_REVERSEPROXY=false \
     MOODLE_SSLPROXY=false \
-    SABERES_VERSION=3.4.2-3
+    SABERES_VERSION=3.4.2-4
 
 EXPOSE 80
 
@@ -15,6 +15,8 @@ VOLUME ["/var/moodledata"]
 
 RUN apk update \
  && apk add --no-cache \
+                       icu-libs \
+                       vim \
                        dcron \
                        git \
                        apache2 \
@@ -42,6 +44,9 @@ RUN apk update \
                        php7-ctype \
                        php7-fileinfo
 
+ENV LC_ALL pt_BR.UTF-8
+ENV LANG pt_BR.UTF-8
+
 RUN cd /tmp \
  && git clone ${MOODLE_GITHUB} --depth=1 --branch SAB_${SABERES_VERSION} \
  && rm -rf /var/www/localhost/htdocs \
@@ -52,8 +57,8 @@ RUN cd /tmp \
  && mv /tmp/moodle /var/www/localhost/htdocs \
  && mkdir /run/apache2
 
-RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log \
- && ln -sf /proc/self/fd/1 /var/log/apache2/error.log
+#RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log \
+# && ln -sf /proc/self/fd/1 /var/log/apache2/error.log
 
 COPY 00_limits.ini /etc/php7/conf.d/00_limits.ini
 COPY 00_opcache.ini /etc/php7/conf.d/00_opcache.ini
@@ -62,6 +67,6 @@ COPY run.sh /opt/apache2/run.sh
 COPY crontab /etc/crontabs/root
 COPY startcron.sh /usr/local/bin
 
-COPY moodle-config.php /var/www/localhost/htdocs/
+COPY moodle-config.php /var/www/localhost/htdocs/config.php
 
 CMD ["/opt/apache2/run.sh"]
