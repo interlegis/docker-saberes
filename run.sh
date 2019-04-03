@@ -19,9 +19,9 @@ fi
 #/usr/bin/php /var/www/localhost/htdocs/admin/cli/upgrade.php --non-interactive
 
 # Atribui proprietário do moodledata e config.php
-#chown apache:apache /var/www/localhost/htdocs -R
-chown apache:apache /var/moodledata 
-chown apache:apache /var/moodledata &
+chown www-data:www-data /var/www/html/config.phg
+chown www-data:www-data /var/moodledata  
+chown www-data:www-data /var/moodledata -R &
 
 # Inicializa o servidor web
-exec /usr/sbin/httpd -D FOREGROUND
+exec apachectl -D FOREGROUND

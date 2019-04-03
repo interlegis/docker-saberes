@@ -1,5 +1,4 @@
 #!/bin/sh
 
 echo "Initiating cron daemon..."
-crond -f -c /etc/crontabs
-
+/etc/init.d/cron start 
