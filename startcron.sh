@@ -1,4 +1,4 @@
 #!/bin/sh
 
 echo "Initiating cron daemon..."
-/etc/init.d/cron start 
+/usr/sbin/cron -f 
