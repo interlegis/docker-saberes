@@ -72,8 +72,8 @@ ENV LANG pt_BR.UTF-8
 ENV LANGUAGE pt_BR.UTF-8
 ENV LC_ALL pt_BR.UTF-8
 
-COPY 00_limits.ini /etc/php/7.2/apache2/conf.d/00_limits.ini
-COPY 00_opcache.ini /etc/php/7.2/apache2/conf.d/00_opcache.ini
+COPY 00_limits.ini /etc/php/7.0/apache2/conf.d/00_limits.ini
+COPY 00_opcache.ini /etc/php/7.0/apache2/conf.d/00_opcache.ini
 COPY install.sh /usr/local/bin
 COPY run.sh /opt/apache2/run.sh
 COPY crontab /etc/cron.d
