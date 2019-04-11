@@ -1,2 +1,2 @@
-# min   hour    day     month   weekday command
-*/5    *       *       *       *       /usr/bin/php /var/www/html/admin/cli/cron.php
+# min   hour    day     month   weekday 	user 	command
+*/5    *       *       *       *       root	/usr/bin/php /var/www/html/admin/cli/cron.php

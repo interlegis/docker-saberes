@@ -8,7 +8,7 @@ ENV MOODLE_GITHUB=https://github.com/interlegis/moodle.git \
     MOODLE_DATA=/var/moodledata \
     MOODLE_REVERSEPROXY=false \
     MOODLE_SSLPROXY=false \
-    SABERES_VERSION=3.4.2-17
+    SABERES_VERSION=3.4.2-18
 
 EXPOSE 80
 
