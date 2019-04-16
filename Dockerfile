@@ -8,7 +8,7 @@ ENV MOODLE_GITHUB=https://github.com/interlegis/moodle.git \
     MOODLE_DATA=/var/moodledata \
     MOODLE_REVERSEPROXY=false \
     MOODLE_SSLPROXY=false \
-    SABERES_VERSION=3.4.2-18
+    SABERES_VERSION=3.4.2-19
 
 EXPOSE 80
 
@@ -61,8 +61,8 @@ RUN cd /tmp \
  && mkdir -p /run/apache2 \
  && mkdir -p /opt/apache2
 
-RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log \
- && ln -sf /proc/self/fd/1 /var/log/apache2/error.log
+RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log 
+# && ln -sf /proc/self/fd/1 /var/log/apache2/error.log
 
 RUN locale-gen pt_BR.UTF-8 \
     && sed -i -e 's/# pt_BR.UTF-8 UTF-8/pt_BR.UTF-8 UTF-8/' /etc/locale.gen \
