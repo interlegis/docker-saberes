@@ -8,7 +8,7 @@ ENV MOODLE_GITHUB=https://github.com/interlegis/moodle.git \
     MOODLE_DATA=/var/moodledata \
     MOODLE_REVERSEPROXY=false \
     MOODLE_SSLPROXY=false \
-    SABERES_VERSION=3.6.3-2
+    SABERES_VERSION=3.6.3-3
 
 EXPOSE 80
 
@@ -55,7 +55,7 @@ RUN cd /tmp \
  && rm -rf /var/www/html \
  && cd moodle \
  && git submodule init \
- && git submodule update \ 
+ && git submodule update --recursive \ 
  && cd .. \
  && mv /tmp/moodle /var/www/html \
  && mkdir -p /run/apache2 \
