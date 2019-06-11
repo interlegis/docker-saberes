@@ -8,7 +8,7 @@ ENV MOODLE_GITHUB=https://github.com/interlegis/moodle.git \
     MOODLE_DATA=/var/moodledata \
     MOODLE_REVERSEPROXY=false \
     MOODLE_SSLPROXY=false \
-    SABERES_VERSION=3.7.0-5
+    SABERES_VERSION=3.7.0-6
 
 EXPOSE 80
 
@@ -49,7 +49,8 @@ RUN apt-get update \
                        php7.3-tokenizer \
                        php7.3-simplexml \
                        php7.3-ctype \
-                       php7.3-fileinfo \ 
+                       php7.3-fileinfo \
+                       php7.3-ldap \		 
                        locales \
  && apt-get clean
 
